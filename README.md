@@ -16,7 +16,7 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference. -->
 
 
-Nama : Abby Shelley Tampubolon
+Nama : Abby Shelley Tampubolon,
 NPM : 2306275254
 
 TUGAS 7
