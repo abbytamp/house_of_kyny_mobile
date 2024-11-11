@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:house_of_kyny_mobile/menu.dart';
+import 'package:house_of_kyny_mobile/screens/menu.dart';
 
 void main() {
   runApp(const MyApp());
