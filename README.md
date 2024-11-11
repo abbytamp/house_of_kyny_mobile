@@ -16,7 +16,7 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference. -->
 
 
-Nama : Abby Shelley Tampubolon
+Nama : Abby Shelley Tampubolon,
 NPM : 2306275254
 
 TUGAS 7
@@ -61,8 +61,6 @@ Keempat, kita mengubah sifat widget halaman menu menjadi stateless. pada berkas 
 Kelima, kita membuat card sederhana yang berisi NPM, Nama, dan Kelas kita. dan membuat class baru dengan nama Infocard untuk menampilkan informasinya.
 Keenam, Membuat button card sederhana dengan icon, membuat class baru bernama ItemHomePage yang berisi atribut-atribut card yang dibuat. kemudian pada berkas menu.dart  kita letakan kodenya diluar class MyHomePage dan InfoCard. Kemudian tombol tersebut apabila ditekan akan menampilkan pesan seperti "Kamu telah menekan tombol [nama button]".
 Ketujuh, Mengintegrasikan infocard dan itemcard untuk ditampilkan di MyHomePage dengan melakukan beberapa perubahan di bagian widget build() pada class MyHomePage.
- 
-
 
 
 TUGAS 8 
