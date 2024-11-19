@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:house_of_kyny_mobile/screens/productentry_form.dart';
+// import 'package:house_of_kyny_mobile/screens/productentry_form.dart';
 import 'package:house_of_kyny_mobile/widgets/left_drawer.dart';
-import 'package:house_of_kyny_mobile/screens/menu.dart';
+// import 'package:house_of_kyny_mobile/screens/menu.dart';
 import 'package:house_of_kyny_mobile/widgets/product_card.dart';
 
 class MyHomePage extends StatelessWidget {

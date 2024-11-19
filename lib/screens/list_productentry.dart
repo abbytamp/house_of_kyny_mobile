@@ -65,18 +65,20 @@ class _ProductEntryPageState extends State<ProductEntryPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${snapshot.data![index].fields.product}",
+                        "${snapshot.data![index].fields.user}",
                         style: const TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Text("${snapshot.data![index].fields.product_price}"),
+                      Text("${snapshot.data![index].fields.name}"),
                       const SizedBox(height: 10),
-                      Text("${snapshot.data![index].fields.product_name}"),
+                      Text("${snapshot.data![index].fields.description}"),
                       const SizedBox(height: 10),
-                      Text("${snapshot.data![index].fields.product_description}")
+                      Text("${snapshot.data![index].fields.price}"),
+                      const SizedBox(height: 10),
+                      Text("${snapshot.data![index].fields.size}"),
                     ],
                   ),
                 ),
