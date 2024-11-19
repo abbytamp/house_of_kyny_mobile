@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:house_of_kyny_mobile/screens/list_productentry.dart';
 import 'package:house_of_kyny_mobile/screens/menu.dart';
 import 'package:house_of_kyny_mobile/screens/productentry_form.dart';
 
@@ -65,6 +66,18 @@ class LeftDrawer extends StatelessWidget {
                 ));
               },
             ),
+
+            ListTile(
+              leading: const Icon(Icons.add_reaction_rounded),
+              title: const Text('Daftar Product'),
+              onTap: () {
+                  // Route menu ke halaman product
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ProductEntryPage()),
+                  );
+              },
+          ),
 
         ],
       ),

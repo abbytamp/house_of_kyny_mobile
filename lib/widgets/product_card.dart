@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:house_of_kyny_mobile/screens/list_productentry.dart';
 import 'package:house_of_kyny_mobile/screens/productentry_form.dart';
 import 'package:house_of_kyny_mobile/screens/menu.dart';
 
@@ -41,7 +42,15 @@ class ItemCard extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const ProductEntryFormPage()));
-            }          
+            }
+
+          else if (item.name == "Lihat Product") {
+            Navigator.push(context,
+                MaterialPageRoute(
+                    builder: (context) => const ProductEntryPage()
+                ),
+            );
+          }          
         },
         // Container untuk menyimpan Icon dan Text
         child: Container(

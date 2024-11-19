@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:house_of_kyny_mobile/screens/menu.dart';
 
 // Impor drawer yang sudah dibuat sebelumnya
 
@@ -210,6 +211,6 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
           )
         ),
       ),
-    );;
+    );
   }
 }
