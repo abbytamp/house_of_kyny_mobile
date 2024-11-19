@@ -167,3 +167,152 @@ Untuk berpindah ke halaman baru:
         context,
         MaterialPageRoute(builder: (context) => HalamanBaru()),
         );
+
+
+TUGAS 9 
+1. Jelaskan mengapa kita perlu membuat model untuk melakukan pengambilan ataupun pengiriman data JSON? Apakah akan terjadi error jika kita tidak membuat model terlebih dahulu?
+
+Model digunakan untuk merepresentasikan struktur data yang dikirim dan diterima, memastikan data tersebut sesuai dengan format yang diharapkan. Dengan adanya model, data JSON dapat divalidasi dan dikonversi menjadi objek yang lebih mudah dikelola dalam aplikasi. Tanpa model, pengolahan atau akses data yang diterima bisa menjadi sulit, yang dapat meningkatkan potensi terjadinya error atau ketidakkonsistenan data. Jika tidak menggunakan model, parsing JSON secara manual masih memungkinkan, namun hal ini dapat membuat kode menjadi lebih kompleks, rentan terhadap error, dan sulit untuk dikelola. Error dapat muncul jika struktur JSON berubah atau jika data diakses dengan cara yang tidak tepat, karena tidak ada definisi tipe data yang jelas.
+
+2. Jelaskan fungsi dari library http yang sudah kamu implementasikan pada tugas ini
+
+Library **http** di Flutter digunakan untuk mengirim dan menerima data melalui protokol HTTP. Library ini memungkinkan aplikasi melakukan berbagai jenis permintaan HTTP seperti GET, POST, PUT, dan DELETE ke server. Dalam tugas ini, **http** digunakan untuk menghubungkan aplikasi dengan server Django, baik untuk mengambil data maupun mengirimkan data, seperti hasil input formulir pengguna.
+
+3. Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+
+**CookieRequest** adalah sebuah kelas yang berfungsi untuk menangani permintaan HTTP yang memerlukan sesi berbasis cookie. Kelas ini mempermudah pengelolaan sesi login pengguna, sehingga sesi dapat tetap aktif di seluruh aplikasi. Penting untuk memastikan instance dari **CookieRequest** dibagikan ke semua komponen aplikasi agar data sesi tetap konsisten, sehingga fitur autentikasi seperti pelacakan status login pengguna dapat berjalan dengan lancar.
+
+4. Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter.
+
+Pengguna mengisi formulir di aplikasi Flutter dan menekan tombol submit. Aplikasi melakukan validasi terhadap input, kemudian mengirimkan data melalui permintaan HTTP (seperti POST) menggunakan CookieRequest atau http. Data tersebut diterima oleh server Django, diproses, dan disimpan ke dalam database. Server kemudian mengirimkan respons (biasanya dalam format JSON) yang akan diolah oleh Flutter. Data hasil respons ditampilkan pada antarmuka pengguna di aplikasi Flutter.
+
+5. Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+
+**Login:** Pengguna mengisi username dan password di aplikasi Flutter, kemudian mengirimkan permintaan ke server Django untuk verifikasi. Jika verifikasi berhasil, server mengembalikan cookie sesi yang disimpan di Flutter menggunakan CookieRequest, menandakan login berhasil.
+
+**Register:** Pengguna mengisi data akun melalui formulir di Flutter, kemudian data dikirim ke endpoint Django untuk pembuatan akun baru. Jika proses berhasil, akun baru akan disimpan di database.
+
+**Logout:** Pengguna menekan tombol logout di Flutter, yang mengirimkan permintaan ke server Django untuk mengakhiri sesi. Server akan menghapus cookie sesi, sementara Flutter menghapus status login pengguna.
+
+6. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).
+Bagian 1: Setup di Django
+  Buat Aplikasi Autentikasi:
+  Buat aplikasi Django bernama authentication.
+  Tambahkan authentication ke INSTALLED_APPS di settings.py.
+  Instal dan Konfigurasi CORS:
+  Instal library django-cors-headers.
+  Tambahkan corsheaders ke INSTALLED_APPS.
+  Tambahkan corsheaders.middleware.CorsMiddleware ke MIDDLEWARE.
+  Konfigurasikan variabel di settings.py untuk mendukung sesi lintas platform, seperti:
+  CORS_ALLOW_ALL_ORIGINS = True
+  CORS_ALLOW_CREDENTIALS = True
+  Tambahkan Alamat Host yang Diizinkan:
+  Tambahkan 10.0.2.2 ke ALLOWED_HOSTS agar emulator Android dapat mengakses server Django saat dijalankan secara lokal.
+  Buat Endpoint Login:
+  Tambahkan fungsi login di views.py untuk menerima kredensial dari Flutter.
+  Endpoint akan memverifikasi username dan password, lalu mengembalikan respons sukses atau gagal.
+  Buat Endpoint Register:
+  Tambahkan fungsi register di views.py untuk menerima data pengguna baru.
+  Endpoint akan memvalidasi input, membuat akun baru di database, dan mengembalikan status pendaftaran.
+  Tambahkan Routing:
+  Buat urls.py di folder authentication dan tambahkan routing untuk login/ dan register/.
+  Masukkan auth/ ke dalam urls.py proyek utama untuk menghubungkan endpoint.
+
+Bagian 2: Setup di Flutter
+  Instal Library:
+  Instal provider dan pbp_django_auth untuk menangani autentikasi dengan Django.
+  Modifikasi Root Widget:
+  Tambahkan CookieRequest sebagai provider di root widget (main.dart) agar dapat digunakan di seluruh aplikasi.
+  Buat Halaman Login:
+  Tambahkan form login dengan TextField untuk username dan password.
+  Kirim data ke endpoint login/ menggunakan CookieRequest.
+  Tampilkan respons sukses atau gagal pada UI.
+  Buat Halaman Register:
+  Tambahkan form registrasi dengan TextField untuk username, password, dan konfirmasi password.
+  Kirim data ke endpoint register/ menggunakan CookieRequest.
+  Tampilkan pesan sukses atau gagal pada UI.
+
+Bagian 3: Pembuatan Model Kustom
+  Gunakan Quicktype untuk Membuat Model:
+  Salin data JSON dari endpoint Django yang sudah dibuat.
+  Buka situs Quicktype dan pilih pengaturan:
+  Setup name: productEntry
+  Source type: JSON
+  Language: Dart
+  Tempelkan data JSON ke Quicktype dan salin kode model yang dihasilkan.
+  Tambahkan Model ke Proyek Flutter:
+  Buat folder models/ di dalam direktori lib/ pada proyek Flutter.
+  Buat file baru product_entry.dart di folder tersebut.
+  Tempelkan kode model dari Quicktype ke dalam file tersebut.
+
+Bagian 4: Menambahkan Dependensi HTTP
+  Instal Paket HTTP:
+  Jalankan perintah berikut di terminal proyek Flutter:
+  flutter pub add http
+  Izinkan Akses Internet di Android:
+  Tambahkan izin akses internet di file android/app/src/main/AndroidManifest.xml:
+  <uses-permission android:name="android.permission.INTERNET" />
+  Bagian 3: Fetch Data dari Django
+  Buat Halaman Baru untuk Daftar product:
+  Buat file list_productentry.dart di dalam folder lib/screens/.
+  Tampilkan Data JSON ke Flutter:
+  Tambahkan kode berikut untuk mengimpor model dan menampilkan data menggunakan FutureBuilder:
+  Ambil data dari endpoint JSON Django menggunakan fungsi HTTP GET.
+  Decode data JSON dan ubah menjadi daftar objek productEntry.
+  Tambahkan Fungsi Navigasi:
+  Tambahkan navigasi ke halaman daftar product (productEntryPage) di widgets/left_drawer.dart dengan menambahkan item menu menggunakan ListTile.
+  Integrasikan ke Halaman Utama:
+  Ubah tombol "Lihat product" di halaman utama agar mengarahkan ke halaman productEntryPage.
+  Impor File yang Dibutuhkan:
+  Pastikan file productEntryPage diimpor di file yang membutuhkan, seperti left_drawer.dart dan tracker_card.dart.
+
+Bagian 5: Menambahkan Fitur Form di Django
+  Buat View untuk Menambahkan Data product:
+  Tambahkan fungsi create_product_flutter di main/views.py untuk menangani permintaan POST dari Flutter.
+  Fungsi ini membaca data JSON, membuat objek baru di database, dan mengembalikan status sukses atau error.
+  Tambahkan Routing untuk Endpoint Baru:
+  Tambahkan path baru di main/urls.py untuk mengakses view create_product_flutter:
+  path('create-flutter/', create_product_flutter, name='create_product_flutter'),
+  Jalankan Ulang Server Django:
+  Restart server untuk menerapkan perubahan.
+
+Bagian 6: Integrasi Form dengan Flutter
+  Hubungkan CookieRequest:
+  Di file productentry_form.dart, tambahkan CookieRequest ke widget dengan:
+  final request = context.watch<CookieRequest>();
+  Modifikasi Tombol Submit:
+  Pada onPressed:, kirim data JSON ke endpoint Django menggunakan metode POST, dan tampilkan notifikasi jika berhasil atau gagal.
+  Lakukan Quick Fix:
+  Perbaiki semua masalah impor library yang terkait.
+  Jalankan Ulang Aplikasi Flutter:
+  Coba tambahkan data baru melalui aplikasi dan periksa apakah data berhasil disimpan di database Django.
+
+
+Integrasi Form Flutter dengan Layanan Django
+Bagian 7: Menambahkan Fitur Form di Django
+  Buat View untuk Menambahkan Data product:
+  Tambahkan fungsi create_product_flutter di main/views.py untuk menangani permintaan POST dari Flutter.
+  Fungsi ini membaca data JSON, membuat objek baru di database, dan mengembalikan status sukses atau error.
+  Tambahkan Routing untuk Endpoint Baru:
+  Tambahkan path baru di main/urls.py untuk mengakses view create_product_flutter:
+  path('create-flutter/', create_product_flutter, name='create_product_flutter'),
+  Jalankan Ulang Server Django:
+  Restart server untuk menerapkan perubahan.
+  Bagian 2: Integrasi Form dengan Flutter
+  Hubungkan CookieRequest:
+  Di file productentry_form.dart, tambahkan CookieRequest ke widget dengan:
+  final request = context.watch<CookieRequest>();
+  Modifikasi Tombol Submit:
+  Pada onPressed:, kirim data JSON ke endpoint Django menggunakan metode POST, dan tampilkan notifikasi jika berhasil atau gagal.
+  Lakukan Quick Fix:
+  Perbaiki semua masalah impor library yang terkait.
+  Jalankan Ulang Aplikasi Flutter:
+  Coba tambahkan data baru melalui aplikasi dan periksa apakah data berhasil disimpan di database Django.
+  Implementasi Fitur Logout
+  Bagian 1: Menambahkan Fitur Logout di Django
+  Buat View untuk Logout:
+  Tambahkan fungsi logout di authentication/views.py untuk menangani permintaan logout dari Flutter:
+  Fungsi ini menghapus sesi pengguna dan mengembalikan status sukses atau gagal.
+  Tambahkan Routing untuk Logout:
+  Tambahkan path baru di authentication/urls.py:
+  path('logout/', logout, name='logout'),
