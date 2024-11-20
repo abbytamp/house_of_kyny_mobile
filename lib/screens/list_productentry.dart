@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:house_of_kyny_mobile/models/product_entry.dart';
+import 'package:house_of_kyny_mobile/screens/productdetails.dart';
 
 import 'package:house_of_kyny_mobile/widgets/left_drawer.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -56,33 +57,58 @@ class _ProductEntryPageState extends State<ProductEntryPage> {
             } else {
               return ListView.builder(
                 itemCount: snapshot.data!.length,
-                itemBuilder: (_, index) => Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "${snapshot.data![index].fields.user}",
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
+                itemBuilder: (_, index) {
+                  var product = snapshot.data![index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductDetailsPage(product: product),
                         ),
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      padding: const EdgeInsets.all(20.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 10),
-                      Text("${snapshot.data![index].fields.name}"),
-                      const SizedBox(height: 10),
-                      Text("${snapshot.data![index].fields.description}"),
-                      const SizedBox(height: 10),
-                      Text("${snapshot.data![index].fields.price}"),
-                      const SizedBox(height: 10),
-                      Text("${snapshot.data![index].fields.size}"),
-                    ],
-                  ),
-                ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${product.fields.user}",
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text("${product.fields.name}"),
+                          const SizedBox(height: 10),
+                          Text("${product.fields.description}"),
+                          const SizedBox(height: 10),
+                          Text("Rp ${product.fields.price}"),
+                          const SizedBox(height: 10),
+                          Text("${product.fields.size}"),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               );
+
             }
           }
         },
